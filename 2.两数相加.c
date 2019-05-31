@@ -32,6 +32,7 @@
  *     struct ListNode *next;
  * };
  */
+/*
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
     struct ListNode* tmp1 = l1;
     struct ListNode* tmp2 = l2;
@@ -127,7 +128,52 @@ struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2){
         }
     }
     return l3;
+}*/
+/*
+伪代码如下：
+
+1) 将当前结点初始化为列表的哑结点。
+2) 将进位carry初始化为0
+3) 将p和q分别初始化为列表l1和l2的头部
+4) 遍历列表l1和l2直至到达它们的尾端。
+    · 将x设置为p的值。如果p已经达到了l1的末尾，则将其值设为0.
+    · 将y设置为q的值。如果q已经达到了l2的末尾，则将其值设置为0.
+    · 设定sum = x + y + carry;
+    · carry = sum / 10.
+    · 创建一个数值为(sum % 10)的节点，并将其设置为当前结点的下一结点，然后将当前
+    结点前进到下一个结点。
+    · 同时，将p和q前进到下一个结点。
+5) 检查carry = 1是否成立，若成立，则新增一个含有数字1的新节点。
+6) 返回哑结点的下一个结点。
+ */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    struct ListNode* dummyHead = (struct ListNode*)malloc(sizeof(struct ListNode));
+    dummyHead->val = 0;
+    dummyHead->next = NULL;
+    struct ListNode* cur = dummyHead;
+    int carry = 0;
+    struct ListNode* p = l1;
+    struct ListNode* q = l2;
+    while (p != NULL || q != NULL) {
+        int x = (p != NULL)?p->val:0;
+        int y = (q != NULL)?q->val:0;
+        int sum = x + y + carry;
+        carry = sum / 10;
+        cur->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        cur = cur->next;
+        cur->next = NULL;
+        cur->val = sum % 10;
+        if (p != NULL)
+            p = p->next;
+        if (q != NULL) {
+            q = q->next;
+        }
+    }
+    if (carry == 1) {
+        cur->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        cur = cur->next;
+        cur->next = NULL;
+        cur->val = 1;
+    }
+    return dummyHead->next;
 }
-
-
-
