@@ -158,8 +158,8 @@ void freeMap(map_t map) {
     }
     freeMap(map);
     return largest_len;
-}*/
-
+}
+*/
 // solution2: sliding window(new)
 /* int lengthOfLongestSubstring(char * s) { */
 /*     int len = strlen(s); */
@@ -191,28 +191,44 @@ void freeMap(map_t map) {
 
 
 // solution3: optimized sliding window version.
-int lengthOfLongestSubstring(char * s) {
-    int len = strlen(s);
-    map_t map = createMap(len); 
-    int i = 0, j = 0;
-    int largest_len = 0;
-    int j_pos;
-    while (i < len && j < len) {
-        if ((j_pos=find(map,s[j])) == -1) {
-            add(map,s[j], j);
-            j++;
-            largest_len = largest_len > (j - i)?largest_len:(j-i);
-        }else {
-            removeKey(map, s[j]);
-            i = i > (j_pos + 1)?i:(j_pos + 1);
-        }
-    }
-    return largest_len;
-}
-
-/* int main () { */
-/*     char* s = "abba"; */
-/*     printf("%d\n", lengthOfLongestSubstring(s)); */
-/*     return 0; */
+/* int lengthOfLongestSubstring(char * s) { */
+/*     int len = strlen(s); */
+/*     map_t map = createMap(len);  */
+/*     int i = 0, j = 0; */
+/*     int largest_len = 0; */
+/*     int j_pos; */
+/*     while (i < len && j < len) { */
+/*         if ((j_pos=find(map,s[j])) == -1) { */
+/*             add(map,s[j], j); */
+/*             j++; */
+/*             largest_len = largest_len > (j - i)?largest_len:(j-i); */
+/*         }else { */
+/*             removeKey(map, s[j]); */
+/*             i = i > (j_pos + 1)?i:(j_pos + 1); */
+/*         } */
+/*     } */
+/*     return largest_len; */
 /* } */
+//solution4: optimise memory use. o(1)
+int lengthOfLongestSubstring(char* s)
+{
+    int len=0;
+    char *end=s,*temp;
+    char* addressTable[128]={NULL};
+    while(*end){
+        temp = addressTable[*end];
+        addressTable[*end]=end;
+        if(temp>=s){
+        len=end-s>len?end-s:len;
+        s = temp+1;
+        }end++;
+    }
+    len=end-s>len?end-s:len;
+    return len;
+}
+int main () {
+    char* s = "abcabcab";
+    printf("%d\n", lengthOfLongestSubstring(s));
+    return 0;
+}
 
