@@ -39,23 +39,56 @@
 # 
 #
 import pdb
+# class Solution:
+#     def isPalindrome(self, x: int) -> bool:
+#         if x < 0:
+#             return False
+#         reverse = self.__reverseNum(x)
+#         if reverse == x:
+#             return True
+#         return False    
+#     def __reverseNum(self, x:int) -> int:
+#         if x < 10 and x > -10:
+#             return x
+#         result = 0
+#         while x > 0:
+#             result = result * 10 + x % 10
+#             x //= 10
+        # return result
+# 取头取尾，进行对比
+# class Solution:
+#     def isPalindrome(self, x: int) -> bool:
+#         if x < 0:
+#             return False
+#         div = 1
+#         while x / div >= 10:
+#             div *= 10
+#         while x > 0:
+#             left = x // div
+#             right = x % 10
+#             if left != right:
+#                 return False
+#             x = (x % div) // 10
+#             div //= 100
+#         return True
+#
 class Solution:
     def isPalindrome(self, x: int) -> bool:
-        if x < 0:
+        if x < 0 or (x != 0 and x % 10 == 0):
             return False
-        reverse = self.__reverseNum(x)
-        if reverse == x:
-            return True
-        return False    
-    def __reverseNum(self, x:int) -> int:
-        if x < 10 and x > -10:
-            return x
-        result = 0
-        while x > 0:
-            result = result * 10 + x % 10
+        res = 0
+        # pdb.set_trace()
+        while x >= 0:
+            res = res * 10 + x % 10
             x //= 10
-        return result
-            
+            if x <= res or x // 10 == 0:
+                if res == x or ((res // 10) == x):
+                    return True
+                else:
+                    return False
+        return False
 # if __name__ == '__main__':
 #     s = Solution()
-#     print(s.reverseNum(123456789))
+#     print(s.isPalindrome(0))
+
+    
