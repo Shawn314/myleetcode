@@ -35,37 +35,35 @@
 # 
 #
 import sys
+import pdb
 class Solution:
-    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+    def findMedianSortedArrays(self, nums1: [int], nums2: [int]) -> float:
         n = len(nums1)
         m = len(nums2)
+        #保证数组1一定最短
         if n > m:
             return self.findMedianSortedArrays(nums2, nums1)
-        LMax1 = 0
-        LMax2 = 0
-        RMin1 = 0
-        RMin2 = 0
-        c1 = 0
-        c2 = 0
-        lo = 0
-        hi = 2 * n
-        while lo < hi:
-            c1 = (lo + hi) / 2
-            c2 = m + n - c1
+        # Ci 为第i个数组的割,比如C1为2时表示第1个数组只有2个元素。LMaxi为第i个数组割后的左元素。RMini为第i个数组割后的右元素。
+        LMax1, LMax2, RMin1, RMin2 = 0,0,0,0
+        # 我们目前是虚拟加了'#'所以数组1是2*n长度
+        c1,c2,lo,hi = 0, 0, 0, 2 * n
+        while lo <= hi:
+            c1 = (lo + hi) // 2
+            c2 = (2n + 2m) / 2 - c1
             if c1 == 0:
-                LMax1 = -sys.maxint - 1
+                LMax1 = -sys.maxsize - 1
             else:
                 LMax1 = nums1[(int)((c1 - 1) // 2)]
             if c1 == 2 * n:
-                RMin1 = sys.maxint
+                RMin1 = sys.maxsize
             else:
                 RMin1 = nums1[(int)(c1 // 2)]
             if c2 == 0:
-                LMax2 = -sys.maxint - 1
+                LMax2 = -sys.maxsize - 1
             else:
                 LMax2 = nums2[(int)((c2 - 1) // 2)]
             if c2 == 2 * m:
-                RMin2 = sys.maxint
+                RMin2 = sys.maxsize
             else:
                RMin2 = nums2[(int)(c2 // 2)]
 
@@ -75,5 +73,9 @@ class Solution:
                 lo = c1 +1
             else:
                 break
+        # pdb.set_trace()
         return (max(LMax1,LMax2) + min(RMin1, RMin2)) / 2.0
-
+# if __name__ == '__main__':
+#     s = Solution()
+#     pdb.set_trace()
+#     print(s.findMedianSortedArrays([2,3,5], [1,4,7,9]))
