@@ -34,7 +34,7 @@ class Solution:
         for i in range(len(nums) - 2):
             if nums[i] > 0:
                 break
-            if i == 0 or ( i> 0 and nums[i] != nums[i-1]):
+            if i == 0 or nums[i] != nums[i-1]:
                 # 两个指针，头指针是从 i+1开始，防止加入重复的元素
                 lo = i+1
                 hi = len(nums) - 1

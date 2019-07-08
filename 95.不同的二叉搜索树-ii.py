@@ -36,11 +36,11 @@
 # 
 #
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 '''
 1）二叉搜索树：如果根节点有左子树，那么左子树的所有结点值，要小于根节点的值
                如果根节点有右子树，那么右子树的所有结点值，要大于根节点的值
@@ -62,9 +62,9 @@ class Solution:
                         root.left, root.right = ltree, rtree
                         ans.append(root)
             return ans
-        # pdb.set_trace()
+        pdb.set_trace()
         return helper(range(1,n+1))
-# if __name__ == '__main__':
-#     s = Solution()
-#     print(s.generateTrees(2))
+if __name__ == '__main__':
+    s = Solution()
+    print(s.generateTrees(3))
 
