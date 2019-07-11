@@ -21,6 +21,33 @@
 # 
 #
 class Solution:
-    def threeSumClosest(self, nums: List[int], target: int) -> int:
-        
-
+    def threeSumClosest(self, nums, target):
+        length = len(nums)
+        if length < 3:
+            return 0
+        # min_diff = 0
+        # closest_val = 0
+        # import pdb
+        # # pdb.set_trace()
+        nums.sort()
+        result = nums[0] + nums[1] + nums[2]
+        for i in range(0, length-2):
+            if i > 0 and nums[i-1] == nums[i]:
+                continue
+            head = i+1
+            tail = length - 1
+            while head < tail:
+                sum = nums[i] + nums[head] + nums[tail]
+                if sum == target:
+                    return sum
+                if abs(sum-target) < abs(result-target):
+                    result = sum
+                elif sum < target:
+                    head += 1
+                else:
+                    tail -= 1
+        return result
+# if __name__ == '__main__':
+#     s = Solution()
+#     nums = [1,1,-1,-1,3]
+#     print(s.threeSumClosest(nums, 2))
