@@ -55,7 +55,9 @@ class Solution:
                         # pdb.set_trace()
                         return res[:public_pos]
             public_pos += 1
-# if __name__ == '__main__':
-#     s = Solution()
-#     print(s.longestCommonPrefix(["ap","apca","ap"]))
+if __name__ == '__main__':
+    s = Solution()
+    import pdb
+    pdb.set_trace()
+    print(s.longestCommonPrefix(["ap","apca","ap"]))
 

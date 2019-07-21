@@ -38,5 +38,11 @@
 
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        
-
+        if len(nums) == 0:
+            return None
+        length = len(nums)
+        binary = length // 2
+        root = TreeNode(nums[binary])
+        root.left = self.sortedArrayToBST(nums[:binary])
+        root.right = self.sortedArrayToBST(nums[binary+1:])
+        return root

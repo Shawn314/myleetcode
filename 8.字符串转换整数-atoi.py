@@ -177,7 +177,9 @@ class Solution:
         except:
             return 0
         
-# if __name__ == '__main__':
-#     s = Solution()
-#     print(s.myAtoi('2147483648'))
+if __name__ == '__main__':
+    s = Solution()
+    import pdb
+    pdb.set_trace()
+    print(s.myAtoi('**8123e'))
 
