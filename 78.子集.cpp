@@ -39,22 +39,25 @@ public:
     /*
       Solution:回溯，画树图，看符合规则的路径如何放到结果中（叶子结点）。
      */
-    vector<vector<int> > subsets2(vector<int>& nums) {
+    vector<vector<int> > subsets(vector<int>& nums) {
         vector<vector<int> > res;
         int size = nums.size();
         if (size <= 0) {
             return res;
         }
         vector<int> path;
-        sort(nums.begin(), nums.end());
-        res.push_back(path);
-        backtrack(nums, size, 0, path, res);
+        backtrack2(nums, size, 0, path, res);
         return res;
     }
-    void backtrack(vector<int>& nums, int size, int start, vector<int>& path, vector<vector<int> >& res) {
-        if (start >= size) {
-            return;
-        }
+    /*
+      自己写的回溯，回溯开始点从当前开始，其实从下一个开始即可
+      还有一点是，这里不需要排序。
+     */
+    void backtrack1(vector<int>& nums, int size, int start, vector<int>& path, vector<vector<int> >& res) {
+        // 可以精简，因为此结束条件亦为 for 循环的结束条件（注释掉）
+        // if (start >= size) {
+            // return;
+        // }
         for (int i = start; i < size; i++) {
             if (!path.empty()){
                 int last_val = -1;
@@ -65,11 +68,51 @@ public:
                 }
             }
             path.push_back(nums[i]);
-            backtrack(nums, size, i, path, res);
+            backtrack1(nums, size, i, path, res);
+            path.pop_back();
+        }
+    }
+    /*
+      回溯：回溯的过程是执行一次深度优先遍历，一条路走到底，走不通的时候，
+      返回回来，继续执行，一直这样下去，直到回到起点。
+      经过分析，在根节点，非叶子节点，叶子结点都需要结算，所以开始下一次递
+      归之前将路径保存到结果中;
+     */
+    void backtrack2(vector<int>& nums, int size, int start, vector<int>& path, vector<vector<int> >& res) {
+        res.push_back(path);
+        for (int i = start; i < size; ++i) {
+            path.push_back(nums[i]);
+            backtrack2(nums, size,i+1,path,res);
             path.pop_back();
         }
     }
     vector<vector<int> > subsets1(vector<int>& nums) {
+        vector<vector<int> > res;
+        int size = nums.size();
+        if (size <= 0) {
+            return res;
+        }
+        for (int i = 0; i <= size; i++) {
+            vector<int> path;
+            backtrack3(nums, size, i, 0, path, res);
+        }
+        return res;
+    }
+    void backtrack3(vector<int>& nums, int size, int depth, int start, vector<int>& path, vector<vector<int> >& res) {
+        if (path.size() == depth){
+            res.push_back(path);
+            return;
+        }
+        for (int i = start; i < size; i++) {
+            path.push_back(nums[i]);
+            backtrack3(nums, size, depth, i+1,path, res);
+            path.pop_back();
+        }
+    }
+    /*
+      方法是，读每个数字，然后将每个数字加入到当前结果的子集中。
+     */
+    vector<vector<int> > subsets2(vector<int>& nums) {
         vector<vector<int> > res;
         vector<int> tmp;
         res.push_back(tmp);
@@ -94,7 +137,7 @@ public:
     // 5: 1 0 1
     // 6: 1 1 0
     // 7: 1 1 1
-    vector<vector<int> > subsets(vector<int>& nums) {
+    vector<vector<int> > subsets3(vector<int>& nums) {
         vector<vector<int> > res;
         int size = nums.size();
         if (size == 0) {
@@ -119,7 +162,7 @@ public:
 //     nums.push_back(1);
 //     nums.push_back(2);
 //     nums.push_back(3);
-//     vector<vector<int> > res = s.subsets3(nums);
+//     vector<vector<int> > res = s.subsets(nums);
 //     for (int i = 0; i < res.size(); i++) {
 //         for (int j = 0; j < res[i].size(); j++) {
 //             printf("%d ", res[i][j]);
